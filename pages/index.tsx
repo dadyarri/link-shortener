@@ -9,13 +9,12 @@ import {
   IconButton,
   Input,
   InputGroup,
-  InputLeftAddon, InputRightAddon
+  InputLeftAddon,
+  InputRightAddon
 } from "@chakra-ui/react";
-import {BiShuffle} from "react-icons/bi";
-
+import { BiShuffle } from "react-icons/bi";
 
 const Home: NextPage = () => {
-
   const insertRandomSlug = () => {
     const randomString = makeid(5);
 
@@ -23,18 +22,17 @@ const Home: NextPage = () => {
     if (e) {
       e.setAttribute("value", randomString);
     }
-  }
+  };
 
   const makeid = (length: number) => {
-    let result           = '';
-    const characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+    let result = "";
+    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     const charactersLength = characters.length;
-    for ( let i = 0; i < length; i++ ) {
-      result += characters.charAt(Math.floor(Math.random() *
-          charactersLength));
+    for (let i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
     return result;
-  }
+  };
 
   return (
     <Container mt={3}>
@@ -50,9 +48,17 @@ const Home: NextPage = () => {
           <FormLabel as={"legend"}>Слаг</FormLabel>
           <InputGroup>
             <InputLeftAddon>https://link.dadyarri.ru/</InputLeftAddon>
-            <Input id={"slug-input"}/>
+            <Input id={"slug-input"} />
             <InputRightAddon p={0}>
-              <IconButton p={2} icon={<BiShuffle/>} aria-label={"random slug"} variant={"outline"} colorScheme={"gray"} border={0} onClick={insertRandomSlug}/>
+              <IconButton
+                p={2}
+                icon={<BiShuffle />}
+                aria-label={"random slug"}
+                variant={"outline"}
+                colorScheme={"gray"}
+                border={0}
+                onClick={insertRandomSlug}
+              />
             </InputRightAddon>
           </InputGroup>
 
