@@ -1,27 +1,31 @@
-import {extendTheme, ThemeConfig, withDefaultColorScheme,} from "@chakra-ui/react";
-import {mode} from "@chakra-ui/theme-tools";
+import {
+  extendTheme,
+  ThemeConfig,
+  withDefaultColorScheme
+} from "@chakra-ui/react";
+import { mode } from "@chakra-ui/theme-tools";
 
 const styles = {
   global: {
     body: {
       bg: mode("#ffffff", "#202023"),
-      color: mode("#000000", "#ffffff"),
-    },
-  },
+      color: mode("#000000", "#ffffff")
+    }
+  }
 };
 
 const config: ThemeConfig = {
   initialColorMode: "dark",
-  useSystemColorMode: true,
+  useSystemColorMode: true
 };
 
 const theme = extendTheme(
   {
     styles: styles,
-    config: config,
+    config: config
   },
   withDefaultColorScheme({
-    colorScheme: "blue",
+    colorScheme: "blue"
   })
 );
 

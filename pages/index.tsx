@@ -1,5 +1,15 @@
-import type {NextPage} from 'next'
-import {Button, Container, Flex, FormControl, FormLabel, Heading, Input, InputGroup, InputLeftAddon} from "@chakra-ui/react";
+import type { NextPage } from "next";
+import {
+  Button,
+  Container,
+  Flex,
+  FormControl,
+  FormLabel,
+  Heading,
+  Input,
+  InputGroup,
+  InputLeftAddon
+} from "@chakra-ui/react";
 
 const Home: NextPage = () => {
   return (
@@ -9,21 +19,23 @@ const Home: NextPage = () => {
 
         <FormControl as={"fieldset"} mt={4}>
           <FormLabel as={"legend"}>Полный URL</FormLabel>
-          <Input type={"url"} placeholder={"URL"}/>
+          <Input type={"url"} placeholder={"URL"} />
         </FormControl>
 
         <FormControl as={"fieldset"} mt={4}>
           <FormLabel as={"legend"}>Слаг</FormLabel>
           <InputGroup>
             <InputLeftAddon>https://link.dadyarri.ru/</InputLeftAddon>
-            <Input/>
+            <Input />
           </InputGroup>
 
-          <Button type={"submit"} mt={4}>Сократить!</Button>
+          <Button type={"submit"} mt={4}>
+            Сократить!
+          </Button>
         </FormControl>
       </Flex>
     </Container>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
