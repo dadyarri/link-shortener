@@ -7,7 +7,6 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === "POST") {
-    console.log(get_redis_url());
 
     const client = createClient({
       url: get_redis_url()
@@ -19,20 +18,27 @@ export default async function handler(
 
     await client.connect();
 
-    const length = await client.lLen("links");
+    // check if the slug is already registered
+    const link = await client.hVals(req.body.slug);
 
-    await client.hSet(`links:${length}`, {
+    if (link.length > 0) {
+      return res.status(409).json({"error": "Слаг уже занят", "pos": "slug-input"});
+    }
+
+    // save the link
+    await client.hSet(req.body.slug, {
       slug: req.body.slug,
       url: req.body.url
     });
-    await client.lPush("links", `links:${length}`);
+    await client.lPush("links", req.body.slug);
 
     await client.disconnect();
 
     return res.status(200).json({
-      message: req.body
+      "slug": req.body.slug,
+      "url": req.body.url
     });
   }
 
-  return res.status(405).json({ error: "Method Not Allowed" });
+  return res.status(405).json({ "error": "Method Not Allowed" });
 }
