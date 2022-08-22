@@ -1,9 +1,10 @@
-import type { NextPage } from "next";
+import type {NextPage} from "next";
 import {
   Button,
   Container,
   Flex,
   FormControl,
+  FormErrorMessage,
   FormLabel,
   Heading,
   IconButton,
@@ -12,15 +13,24 @@ import {
   InputLeftAddon,
   InputRightAddon
 } from "@chakra-ui/react";
-import { BiShuffle } from "react-icons/bi";
+import {BiShuffle} from "react-icons/bi";
+import axios from "axios";
+import React, {FormEvent} from "react";
 
 const Home: NextPage = () => {
+
+  const [slugError, setSlugError] = React.useState(false);
+
   const insertRandomSlug = () => {
+
     const randomString = makeid(5);
 
-    const e = document.getElementById("slug-input");
-    if (e) {
-      e.setAttribute("value", randomString);
+    setSlugError(false);
+
+    const element = document.getElementById("slug-input");
+    if (element) {
+      // @ts-ignore
+      element.value = randomString;
     }
   };
 
@@ -34,12 +44,31 @@ const Home: NextPage = () => {
     return result;
   };
 
+  const shortenUrl = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    // @ts-ignore
+    const slug = document.getElementById("slug-input")?.value;
+    // @ts-ignore
+    const url = document.getElementById("url-input")?.value;
+
+    await axios.post("/api/shorten", {slug, url}).then(res => {
+      if (res.status === 200) {
+        setSlugError(false);
+      }
+    }).catch(err => {
+      if (err.response.status === 409) {
+        setSlugError(true);
+      }
+    });
+  }
+
   return (
     <Container mt={3}>
       <Flex alignItems={"center"} direction={"column"}>
         <Heading as={"h1"}>Сокращатель ссылок</Heading>
 
-        <form method={"post"} action={"/api/shorten"}>
+        <form method={"post"} onSubmit={shortenUrl}>
           <FormControl as={"fieldset"} mt={4}>
             <FormLabel as={"legend"} htmlFor={"url"}>
               Полный URL
@@ -52,13 +81,13 @@ const Home: NextPage = () => {
             />
           </FormControl>
 
-          <FormControl as={"fieldset"} mt={4}>
-            <FormLabel as={"legend"} htmlFor={"slug-input"}>
+          <FormControl as={"fieldset"} mt={4} isInvalid={slugError}>
+            <FormLabel as={"legend"} htmlFor={"slug-input"} id={"slug-label"}>
               Слаг
             </FormLabel>
             <InputGroup>
               <InputLeftAddon>
-                https://{window.location.hostname}/
+                https://link.dadyarri.ru/
               </InputLeftAddon>
               <Input id={"slug-input"} name={"slug"} />
               <InputRightAddon p={0}>
@@ -73,6 +102,7 @@ const Home: NextPage = () => {
                 />
               </InputRightAddon>
             </InputGroup>
+            {slugError && (<FormErrorMessage>Слаг уже занят!</FormErrorMessage>)}
 
             <Button type={"submit"} mt={4}>
               Сократить!
