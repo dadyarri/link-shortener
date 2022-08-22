@@ -33,7 +33,7 @@ const Home: NextPage = () => {
   } = useDisclosure({ defaultIsOpen: false });
 
   const insertRandomSlug = () => {
-    const randomString = makeid(5);
+    const randomString = makeid(3);
 
     setSlugError(false);
 
@@ -46,7 +46,7 @@ const Home: NextPage = () => {
 
   const makeid = (length: number) => {
     let result = "";
-    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    const characters = "abcdefghijklmnopqrstuvwxyz";
     const charactersLength = characters.length;
     for (let i = 0; i < length; i++) {
       result += characters.charAt(Math.floor(Math.random() * charactersLength));
