@@ -41,15 +41,24 @@ const Home: NextPage = () => {
 
         <form method={"post"} action={"/api/shorten"}>
           <FormControl as={"fieldset"} mt={4}>
-            <FormLabel as={"legend"} htmlFor={"url"}>Полный URL</FormLabel>
-            <Input type={"url"} placeholder={"URL"} id={"url-input"} name={"url"}/>
+            <FormLabel as={"legend"} htmlFor={"url"}>
+              Полный URL
+            </FormLabel>
+            <Input
+              type={"url"}
+              placeholder={"URL"}
+              id={"url-input"}
+              name={"url"}
+            />
           </FormControl>
 
           <FormControl as={"fieldset"} mt={4}>
-            <FormLabel as={"legend"} htmlFor={"slug-input"}>Слаг</FormLabel>
+            <FormLabel as={"legend"} htmlFor={"slug-input"}>
+              Слаг
+            </FormLabel>
             <InputGroup>
               <InputLeftAddon>https://link.dadyarri.ru/</InputLeftAddon>
-              <Input id={"slug-input"} name={"slug"}/>
+              <Input id={"slug-input"} name={"slug"} />
               <InputRightAddon p={0}>
                 <IconButton
                   p={2}
