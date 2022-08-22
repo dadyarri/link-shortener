@@ -1,6 +1,11 @@
-import type {NextPage} from "next";
+import type { NextPage } from "next";
 import {
+  Alert,
+  AlertIcon,
+  AlertTitle,
+  Box,
   Button,
+  CloseButton,
   Container,
   Flex,
   FormControl,
@@ -11,18 +16,23 @@ import {
   Input,
   InputGroup,
   InputLeftAddon,
-  InputRightAddon
+  InputRightAddon,
+  Spacer,
+  useDisclosure
 } from "@chakra-ui/react";
-import {BiShuffle} from "react-icons/bi";
+import { BiShuffle } from "react-icons/bi";
 import axios from "axios";
-import React, {FormEvent} from "react";
+import React, { FormEvent } from "react";
 
 const Home: NextPage = () => {
-
   const [slugError, setSlugError] = React.useState(false);
+  const {
+    isOpen: isSuccessVisible,
+    onClose: onSuccessClose,
+    onOpen: onSuccessOpen
+  } = useDisclosure({ defaultIsOpen: false });
 
   const insertRandomSlug = () => {
-
     const randomString = makeid(5);
 
     setSlugError(false);
@@ -52,65 +62,91 @@ const Home: NextPage = () => {
     // @ts-ignore
     const url = document.getElementById("url-input")?.value;
 
-    await axios.post("/api/shorten", {slug, url}).then(res => {
-      if (res.status === 200) {
-        setSlugError(false);
-      }
-    }).catch(err => {
-      if (err.response.status === 409) {
-        setSlugError(true);
-      }
-    });
-  }
+    await axios
+      .post("/api/shorten", { slug, url })
+      .then(res => {
+        if (res.status === 200) {
+          setSlugError(false);
+          onSuccessOpen();
+        }
+      })
+      .catch(err => {
+        if (err.response.status === 409) {
+          setSlugError(true);
+        }
+      });
+  };
 
   return (
-    <Container mt={3}>
-      <Flex alignItems={"center"} direction={"column"}>
-        <Heading as={"h1"}>Сокращатель ссылок</Heading>
+    <>
+      <Container mt={3}>
+        <Flex alignItems={"center"} direction={"column"}>
+          <Heading as={"h1"}>Сокращатель ссылок</Heading>
 
-        <form method={"post"} onSubmit={shortenUrl}>
-          <FormControl as={"fieldset"} mt={4}>
-            <FormLabel as={"legend"} htmlFor={"url"}>
-              Полный URL
-            </FormLabel>
-            <Input
-              type={"url"}
-              placeholder={"URL"}
-              id={"url-input"}
-              name={"url"}
-            />
-          </FormControl>
+          <form method={"post"} onSubmit={shortenUrl}>
+            <FormControl as={"fieldset"} mt={4}>
+              <FormLabel as={"legend"} htmlFor={"url"}>
+                Полный URL
+              </FormLabel>
+              <Input
+                type={"url"}
+                placeholder={"URL"}
+                id={"url-input"}
+                name={"url"}
+              />
+            </FormControl>
 
-          <FormControl as={"fieldset"} mt={4} isInvalid={slugError}>
-            <FormLabel as={"legend"} htmlFor={"slug-input"} id={"slug-label"}>
-              Слаг
-            </FormLabel>
-            <InputGroup>
-              <InputLeftAddon>
-                https://link.dadyarri.ru/
-              </InputLeftAddon>
-              <Input id={"slug-input"} name={"slug"} />
-              <InputRightAddon p={0}>
-                <IconButton
-                  p={2}
-                  icon={<BiShuffle />}
-                  aria-label={"random slug"}
-                  variant={"outline"}
-                  colorScheme={"gray"}
-                  border={0}
-                  onClick={insertRandomSlug}
-                />
-              </InputRightAddon>
-            </InputGroup>
-            {slugError && (<FormErrorMessage>Слаг уже занят!</FormErrorMessage>)}
+            <FormControl as={"fieldset"} mt={4} isInvalid={slugError}>
+              <FormLabel as={"legend"} htmlFor={"slug-input"} id={"slug-label"}>
+                Слаг
+              </FormLabel>
+              <InputGroup>
+                <InputLeftAddon>https://link.dadyarri.ru/</InputLeftAddon>
+                <Input id={"slug-input"} name={"slug"} />
+                <InputRightAddon p={0}>
+                  <IconButton
+                    p={2}
+                    icon={<BiShuffle />}
+                    aria-label={"random slug"}
+                    variant={"outline"}
+                    colorScheme={"gray"}
+                    border={0}
+                    onClick={insertRandomSlug}
+                  />
+                </InputRightAddon>
+              </InputGroup>
+              {slugError && (
+                <FormErrorMessage>Слаг уже занят!</FormErrorMessage>
+              )}
 
-            <Button type={"submit"} mt={4}>
-              Сократить!
-            </Button>
-          </FormControl>
-        </form>
-      </Flex>
-    </Container>
+              <Button type={"submit"} mt={4}>
+                Сократить!
+              </Button>
+            </FormControl>
+          </form>
+        </Flex>
+      </Container>
+      {isSuccessVisible ? (
+        <Alert status={"success"} variant={"left-accent"} w={340} float={"right"} mt={10}>
+          <Flex>
+            <AlertIcon />
+            <Box>
+              <AlertTitle>Короткая ссылка создана!</AlertTitle>
+            </Box>
+            <Spacer />
+            <Flex>
+              <CloseButton
+                alignSelf="flex-end"
+                position="relative"
+                right={-1}
+                top={-1}
+                onClick={onSuccessClose}
+              />
+            </Flex>
+          </Flex>
+        </Alert>
+      ) : null}
+    </>
   );
 };
 
