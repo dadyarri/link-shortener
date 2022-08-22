@@ -57,7 +57,7 @@ const Home: NextPage = () => {
               Слаг
             </FormLabel>
             <InputGroup>
-              <InputLeftAddon>https://link.dadyarri.ru/</InputLeftAddon>
+              <InputLeftAddon>https://{window.location.hostname}/</InputLeftAddon>
               <Input id={"slug-input"} name={"slug"} />
               <InputRightAddon p={0}>
                 <IconButton
