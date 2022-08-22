@@ -7,7 +7,6 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === "POST") {
-
     const client = createClient({
       url: get_redis_url()
     });
@@ -22,7 +21,9 @@ export default async function handler(
     const link = await client.hVals(req.body.slug);
 
     if (link.length > 0) {
-      return res.status(409).json({"error": "Слаг уже занят", "pos": "slug-input"});
+      return res
+        .status(409)
+        .json({ error: "Слаг уже занят", pos: "slug-input" });
     }
 
     // save the link
@@ -35,10 +36,10 @@ export default async function handler(
     await client.disconnect();
 
     return res.status(200).json({
-      "slug": req.body.slug,
-      "url": req.body.url
+      slug: req.body.slug,
+      url: req.body.url
     });
   }
 
-  return res.status(405).json({ "error": "Method Not Allowed" });
+  return res.status(405).json({ error: "Method Not Allowed" });
 }
