@@ -39,33 +39,35 @@ const Home: NextPage = () => {
       <Flex alignItems={"center"} direction={"column"}>
         <Heading as={"h1"}>Сокращатель ссылок</Heading>
 
-        <FormControl as={"fieldset"} mt={4}>
-          <FormLabel as={"legend"}>Полный URL</FormLabel>
-          <Input type={"url"} placeholder={"URL"} />
-        </FormControl>
+        <form method={"post"} action={"/api/shorten"}>
+          <FormControl as={"fieldset"} mt={4}>
+            <FormLabel as={"legend"} htmlFor={"url"}>Полный URL</FormLabel>
+            <Input type={"url"} placeholder={"URL"} id={"url-input"} name={"url"}/>
+          </FormControl>
 
-        <FormControl as={"fieldset"} mt={4}>
-          <FormLabel as={"legend"}>Слаг</FormLabel>
-          <InputGroup>
-            <InputLeftAddon>https://link.dadyarri.ru/</InputLeftAddon>
-            <Input id={"slug-input"} />
-            <InputRightAddon p={0}>
-              <IconButton
-                p={2}
-                icon={<BiShuffle />}
-                aria-label={"random slug"}
-                variant={"outline"}
-                colorScheme={"gray"}
-                border={0}
-                onClick={insertRandomSlug}
-              />
-            </InputRightAddon>
-          </InputGroup>
+          <FormControl as={"fieldset"} mt={4}>
+            <FormLabel as={"legend"} htmlFor={"slug-input"}>Слаг</FormLabel>
+            <InputGroup>
+              <InputLeftAddon>https://link.dadyarri.ru/</InputLeftAddon>
+              <Input id={"slug-input"} name={"slug"}/>
+              <InputRightAddon p={0}>
+                <IconButton
+                  p={2}
+                  icon={<BiShuffle />}
+                  aria-label={"random slug"}
+                  variant={"outline"}
+                  colorScheme={"gray"}
+                  border={0}
+                  onClick={insertRandomSlug}
+                />
+              </InputRightAddon>
+            </InputGroup>
 
-          <Button type={"submit"} mt={4}>
-            Сократить!
-          </Button>
-        </FormControl>
+            <Button type={"submit"} mt={4}>
+              Сократить!
+            </Button>
+          </FormControl>
+        </form>
       </Flex>
     </Container>
   );
