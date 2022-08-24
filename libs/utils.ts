@@ -6,4 +6,12 @@ function get_redis_url() {
   }
 }
 
-export { get_redis_url };
+function getCorrectUrl(url: string) {
+  if (url.startsWith("http://") || url.startsWith("https://")) {
+    return url;
+  } else {
+    return "http://" + url;
+  }
+}
+
+export { get_redis_url, getCorrectUrl };
