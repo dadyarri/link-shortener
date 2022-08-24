@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { createClient } from "redis";
-import { get_redis_url } from "../../libs/utils";
+import { getRedisUrl } from "../../libs/utils";
 
 export default async function handler(
   req: NextApiRequest,
@@ -8,7 +8,7 @@ export default async function handler(
 ) {
   if (req.method === "POST") {
     const client = createClient({
-      url: get_redis_url()
+      url: getRedisUrl()
     });
 
     client.on("error", err => {

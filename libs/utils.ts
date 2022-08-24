@@ -1,4 +1,4 @@
-function get_redis_url() {
+function getRedisUrl() {
   if (process.env.NODE_ENV === "production") {
     return process.env.REDIS_URL;
   } else {
@@ -14,4 +14,4 @@ function getCorrectUrl(url: string) {
   }
 }
 
-export { get_redis_url, getCorrectUrl };
+export { getRedisUrl, getCorrectUrl };

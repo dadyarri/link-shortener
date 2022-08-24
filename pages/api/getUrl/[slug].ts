@@ -1,5 +1,5 @@
 import { createClient } from "redis";
-import { get_redis_url } from "../../../libs/utils";
+import { getRedisUrl } from "../../../libs/utils";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
@@ -7,7 +7,7 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const client = createClient({
-    url: get_redis_url()
+    url: getRedisUrl()
   });
 
   let { slug } = req.query;
