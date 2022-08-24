@@ -127,7 +127,13 @@ const Home: NextPage = () => {
         </Flex>
       </Container>
       {isSuccessVisible ? (
-        <Alert status={"success"} variant={"left-accent"} w={340} float={"right"} mt={10}>
+        <Alert
+          status={"success"}
+          variant={"left-accent"}
+          w={340}
+          float={"right"}
+          mt={10}
+        >
           <Flex>
             <AlertIcon />
             <Box>
