@@ -28,10 +28,8 @@ export default async function handler(
 
     // save the link
     await client.hSet(req.body.slug, {
-      slug: req.body.slug,
       url: req.body.url
     });
-    await client.lPush("links", req.body.slug);
 
     await client.disconnect();
 
