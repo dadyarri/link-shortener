@@ -15,7 +15,7 @@ import {
   Input,
   InputGroup,
   InputLeftAddon,
-  InputRightAddon,
+  InputRightAddon, Link,
   useToast
 } from "@chakra-ui/react";
 import {BiShuffle} from "react-icons/bi";
@@ -47,6 +47,20 @@ const Home: NextPage = () => {
     return result;
   };
 
+  const copyText = async (text: string) => {
+    await navigator.clipboard.writeText(text);
+    toast({
+      position: "bottom-right",
+      duration: 3000,
+      render: () => (
+          <Alert status={"success"}>
+            <AlertIcon />
+            <AlertTitle>Ссылка скопирована в буфер обмена</AlertTitle>
+          </Alert>
+      )
+    });
+  }
+
   const shortenUrl = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -60,16 +74,19 @@ const Home: NextPage = () => {
       .then(res => {
         if (res.status === 200) {
           setSlugError(false);
+          const url = res.data.shortUrl as string;
           toast({
             position: "bottom-right",
             duration: 5000,
             render: () => (
               <Alert status={"success"}>
                 <AlertIcon />
-                <AlertTitle>Сокращенная ссылка создана</AlertTitle>
-                <AlertDescription>
-                  Ваша сокращенная ссылка: {res.data.shortUrl}
-                </AlertDescription>
+                <Flex flexDirection={"column"} align={"left"}>
+                  <AlertTitle>Сокращенная ссылка создана</AlertTitle>
+                  <AlertDescription>
+                    Ваша сокращенная ссылка: <Link href={"#"} onClick={() => copyText(url)}>{url}</Link>
+                  </AlertDescription>
+                </Flex>
               </Alert>
             )
           });
