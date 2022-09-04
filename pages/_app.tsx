@@ -14,7 +14,7 @@ function Website({ Component, pageProps }: AppProps) {
 export async function getServerSideProps(context: { res: { setHeader: (arg0: string, arg1: string) => void; }; }) {
 
   // set HTTP header
-  context.res.setHeader('Access-Control-Allow-Origin', 'schedule.dadyarri.ru')
+  context.res.setHeader('Access-Control-Allow-Origin', 'https://schedule.dadyarri.ru')
 
   return {
     props: {}, // will be passed to the page component as props
