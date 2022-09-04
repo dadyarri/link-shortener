@@ -34,8 +34,7 @@ export default async function handler(
     await client.disconnect();
 
     return res.status(200).json({
-      slug: req.body.slug,
-      url: req.body.url
+      shortUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/${req.body.slug}`
     });
   }
 
