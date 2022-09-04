@@ -18,12 +18,22 @@ export default async function handler(
     await client.connect();
 
     // check if the slug is already registered
-    const link = await client.hVals(req.body.slug);
+    try {
+      const link = await client.hVals(req.body.slug);
 
-    if (link.length > 0) {
+      if (link.length > 0) {
+        return res
+          .status(409)
+          .json({ error: "Слаг уже занят", pos: "slug-input" });
+      }
+    } catch (TypeError) {
       return res
-        .status(409)
-        .json({ error: "Слаг уже занят", pos: "slug-input" });
+        .status(400)
+        .json({
+          error: "Invalid slug",
+          slug: req.body.slug,
+          type: typeof req.body.slug
+        });
     }
 
     // save the link

@@ -1,4 +1,4 @@
-import type {NextPage} from "next";
+import type { NextPage } from "next";
 import {
   Alert,
   AlertDescription,
@@ -15,12 +15,13 @@ import {
   Input,
   InputGroup,
   InputLeftAddon,
-  InputRightAddon, Link,
+  InputRightAddon,
+  Link,
   useToast
 } from "@chakra-ui/react";
-import {BiShuffle} from "react-icons/bi";
+import { BiShuffle } from "react-icons/bi";
 import axios from "axios";
-import React, {FormEvent} from "react";
+import React, { FormEvent } from "react";
 
 const Home: NextPage = () => {
   const [slugError, setSlugError] = React.useState(false);
@@ -53,19 +54,21 @@ const Home: NextPage = () => {
       position: "bottom-right",
       duration: 3000,
       render: () => (
-          <Alert status={"success"}>
-            <AlertIcon />
-            <AlertTitle>Ссылка скопирована в буфер обмена</AlertTitle>
-          </Alert>
+        <Alert status={"success"}>
+          <AlertIcon />
+          <AlertTitle>Ссылка скопирована в буфер обмена</AlertTitle>
+        </Alert>
       )
     });
-  }
+  };
 
   const shortenUrl = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const slug = (document.getElementById("slug-input") as HTMLInputElement).value;
-    const url = (document.getElementById("url-input") as HTMLInputElement).value;
+    const slug = (document.getElementById("slug-input") as HTMLInputElement)
+      .value;
+    const url = (document.getElementById("url-input") as HTMLInputElement)
+      .value;
 
     await axios
       .post("/api/shorten", { slug, url })
@@ -82,7 +85,10 @@ const Home: NextPage = () => {
                 <Flex flexDirection={"column"} align={"left"}>
                   <AlertTitle>Сокращенная ссылка создана</AlertTitle>
                   <AlertDescription>
-                    Ваша сокращенная ссылка: <Link href={"#"} onClick={() => copyText(url)}>{url}</Link>
+                    Ваша сокращенная ссылка:{" "}
+                    <Link href={"#"} onClick={() => copyText(url)}>
+                      {url}
+                    </Link>
                   </AlertDescription>
                 </Flex>
               </Alert>
