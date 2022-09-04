@@ -37,9 +37,8 @@ const Home: NextPage = () => {
 
     setSlugError(false);
 
-    const element = document.getElementById("slug-input");
+    const element = document.getElementById("slug-input") as HTMLInputElement;
     if (element) {
-      // @ts-ignore
       element.value = randomString;
     }
   };
