@@ -64,10 +64,8 @@ const Home: NextPage = () => {
   const shortenUrl = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // @ts-ignore
-    const slug = document.getElementById("slug-input")?.value;
-    // @ts-ignore
-    const url = document.getElementById("url-input")?.value;
+    const slug = (document.getElementById("slug-input") as HTMLInputElement).value;
+    const url = (document.getElementById("url-input") as HTMLInputElement).value;
 
     await axios
       .post("/api/shorten", { slug, url })
