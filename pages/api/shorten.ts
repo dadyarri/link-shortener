@@ -6,6 +6,17 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  if (req.method === "OPTIONS") {
+    const origin = req.headers.origin;
+    if (origin) {
+      return res
+        .status(200)
+        .setHeader("Access-Control-Allow-Origin", origin)
+        .setHeader("Access-Control-Allow-Methods", "Content-Type")
+        .setHeader("Content-Type", "application/json");
+    }
+  }
+
   if (req.method === "POST") {
     const client = createClient({
       url: getRedisUrl()
@@ -27,13 +38,11 @@ export default async function handler(
           .json({ error: "Слаг уже занят", pos: "slug-input" });
       }
     } catch (TypeError) {
-      return res
-        .status(400)
-        .json({
-          error: "Invalid slug",
-          slug: req.body.slug,
-          type: typeof req.body.slug
-        });
+      return res.status(400).json({
+        error: "Invalid slug",
+        slug: req.body.slug,
+        type: typeof req.body.slug
+      });
     }
 
     // save the link
